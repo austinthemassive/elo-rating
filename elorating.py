@@ -9,5 +9,6 @@ This is elo for foosball. Steps:
 	3. add new player
 	4. display rankings
 
-
+	include magnitude of the win? need to research
+	include decay? Probably
 '''
