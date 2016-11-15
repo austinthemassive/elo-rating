@@ -1,14 +1,26 @@
+#!/usr/bin/python
+
+import player
+from player import Player
+
 #	Read file
-file = open("users.txt","r")
-text = ""
-for line in file:
-	text += line 
-print(text)
+def readplayers():
+	filename = "users.txt"
+	file = open(filename,"r")
+	playerlist = []
 
-#	Create Objects
+	#	Create Objects
+	first = True
+	for line in file:
+		if first == True:
+			first = None
+			continue
+		else:
+			playerinfo = line.split('/')
+			playerlist.append(Player(str(playerinfo[0]),playerinfo[1],playerinfo[2]))
 
-
-
-#	Display rankings
+	#close the file, return the list
+	file.close()
+	return playerlist
 
 
