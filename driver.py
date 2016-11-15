@@ -1,30 +1,27 @@
 #!/usr/bin/python
 
 import read
+import rankings
 from player import *
 
-# Sorts player list by rankings, then prints the sorted rankings
-def displayRankings(playerlist):
-	import operator
-	print("Rank","Name","Elo","Games")
-	rank = 1
-	for player in sorted(playerlist, key=lambda player: player.elo, reverse=True):
-		print(rank, player.getInfo())
-		rank += 1
-
-# Saves the player list
-def saveRankings(playerlist):
-	from write import writeplayers
-	writeplayers(playerlist)
-
-# Add a new player
-def newPlayer(name, elo, gamesplayed):
-	playerlist.append(Player(name, elo, gamesplayed))
 
 #want to turn into a main method
 playerlist = list(read.readplayers())
 
 displayRankings(playerlist)
+
+while True:
+	selection = input("\nInput the winner of a match (ex 'Austin') or say 'display rankings' ")
+	if selection.lower() == "display rankings":
+		displayRankings(playerlist)
+	else:
+		for player in playerlist:
+			if selection.lower() == player.playername.lower()
+				loser = input("\nInput the loser of the match (ex 'Giuseppe') ")
+				for player2 in playerlist:
+					if loser.lower() == player2.playername.lower():
+						differential = input("\nInput score differential (ex if the score is 3-1 enter '2' ")
+
 
 saveRankings(playerlist)
 
@@ -43,7 +40,6 @@ This is elo for foosball. Steps:
 	
 
 		(X) Add player
-		(X) Record list of participants, wins losses
 		(X) Write file
 
 
