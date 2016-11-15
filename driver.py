@@ -16,7 +16,7 @@ while True:
 		displayRankings(playerlist)
 	else:
 		for player1 in playerlist:
-			if selection.lower() == player.playername.lower():
+			if selection.lower() == player1.playername.lower():
 				loser = input("\nInput the loser of the match (ex 'Giuseppe') ")
 				for player2 in playerlist:
 					if loser.lower() == player2.playername.lower():

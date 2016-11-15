@@ -1,4 +1,4 @@
 Player List
-sheri/200/4/
-gius/100/6/
-austin/101/2/
+sheri/200/1/
+gius/120/7/
+austin/100/2/

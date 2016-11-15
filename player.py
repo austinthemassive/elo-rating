@@ -16,11 +16,13 @@ class Player(object):
 		self.gamesplayed += 1
 
 	def getInfo(self):
-		list1 = [self.playername,self.elo,self.gamesplayed]
+		import math
+		list1 = [self.playername,math.floor(self.elo),self.gamesplayed]
 		return list1
 
 	def getElo(self):
 		return self.elo
 
-	def setElo(self,elo)
+	def setElo(self,elo):
 		self.elo = elo
+		self.gamesplayed += 1
