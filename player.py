@@ -21,3 +21,6 @@ class Player(object):
 
 	def getElo(self):
 		return self.elo
+
+	def setElo(self,elo)
+		self.elo = elo

@@ -1,4 +1,4 @@
 Player List
-Sheri/1300/4/
-Gius/1111/6/
-Austin/1000/2/
+sheri/200/4/
+gius/100/6/
+austin/101/2/
