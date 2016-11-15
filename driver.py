@@ -32,20 +32,16 @@ This is elo for foosball. Steps:
 		(X) Read file
 		(X) Create Objects
 		(X) Display rankings
-
 		(X) Enter winner
 		(X) Enter loser
 		(X) Enter score differential?
-	Calculate elo delta (using gamesplayed and appropriate K value)
-	handle 2 on 2
-	handle 1 on 1 on 1 on 1
+		(X) Calculate elo delta (using gamesplayed and appropriate K value)
 		(X) Apply elo delta
-	
-
 		(X) Add player
 		(X) Write file
 
-
+	handle 2 on 2
+	handle 1 on 1 on 1 on 1
 	prevent new players of the same name
 	Reset season
 	keep a running history
