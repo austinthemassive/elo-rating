@@ -2,6 +2,7 @@
 
 from pygame import *
 import random
+import math
 
 class Particle:
 	color = (0,0,255)
@@ -26,13 +27,16 @@ def randomCircles(screen, numberofparticles, width, height):
 
 			#compare
 			boolean = _overlap(x,y,size,ListofParticles)
+			print(boolean) #boolean is returning None
 
 		newparticle = Particle(x,y,size)
 		newparticle.display(screen)
+		ListofParticles.append(newparticle)
+
 	return ListofParticles
 
 def _overlap(x,y,size,ListofParticles):
-	boolean = False
+
 	for particle in ListofParticles:
 		greaterX = _compareX(particle.x, x)
 		greaterY = _compareY(particle.y, y)
@@ -61,18 +65,20 @@ def _overlap(x,y,size,ListofParticles):
 		# elif greaterX == -1 and greaterY == -1:
 		# 	continue
 		else:
-			boolean = True
-			break
+			return True
 
-		#if no shapes overlap, return overlap will return false
-		return boolean
+		#if no shapes overlap, return overlap will return false (to exit previous loop)
+		return False
 
 def _hypotenuse(radius1,radius2,x_distance,y_distance):
-	hypotenuse = sqrt(x_distance**2+y_distance**2)
+	hypotenuse = math.sqrt(x_distance**2+y_distance**2)
+	print("\nhypotenuse: ",hypotenuse)
+	print("added radius",radius1+radius2)
 	if hypotenuse >= (radius1+radius2):
 		#return true if not overlapping
 		return True
 	else:
+		# print("****************************************")
 		#return false if overlapping
 		return False	
 
@@ -81,25 +87,25 @@ def _calculateDistance(greaterVAR,var1,var2):
 			var_distance = var1 - var2
 		elif greaterVAR == -1:
 			var_distance = var2 - var1
-		elif greaterX == 0:
+		elif greaterVAR == 0:
 			var_distance = 0
 		return var_distance
 		
 
 def _compareX(x1, x2):
-	if particle.x > x:
+	if x1 > x2:
 		return 1
-	elif particle.x < x:
+	elif x1 < x2:
 		return -1
-	elif particle.x == x:
+	elif x1 == x2:
 		return 0
 
 def _compareY(y1, y2):
-	if particle.y > y:
+	if y1 > y2:
 		return 1
-	elif particle.y < y:
+	elif y1 < y2:
 		return -1
-	elif particle.y == y:
+	elif y1 == y2:
 		return 0	
 
 #set up the screen
