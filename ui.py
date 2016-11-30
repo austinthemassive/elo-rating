@@ -7,14 +7,19 @@ import math
 class Particle:
 	color = (0,0,255)
 	thickness = 1
+	angle = 0
+	speed = 0
 	def __init__(self,x,y,size):
 		self.x = x
 		self.y = y
 		self.size = size
 
 	def display(self, screen1):
-		draw.circle(screen1, self.color, (self.x,self.y),self.size, self.thickness)
+		draw.circle(screen1, self.color, (int(self.x),int(self.y)),self.size, self.thickness)
 
+	def move(particle):
+		particle.x += math.sin(particle.angle)*particle.speed
+		particle.y += math.cos(particle.angle)*particle.speed
 
 def randomCircles(screen, numberofparticles, width, height):
 	ListofParticles = []
@@ -64,7 +69,6 @@ def _calculateDistance(greaterVAR,var1,var2):
 			var_distance = 0
 		return var_distance
 		
-
 def _compareX(x1, x2):
 	if x1 > x2:
 		return 1
@@ -89,14 +93,18 @@ screen = display.set_mode((width,height))
 screen.fill(backgroundcolor)
 display.set_caption('UI experiments')
 
-
 #randomly generate 10 particles
-randomCircles(screen, 10, width, height)
-
-display.flip()
+particleList = randomCircles(screen, 10, width, height)
 
 running = True
 while running:
+	screen.fill(backgroundcolor)
+	for particle in particleList:
+		particle.speed = random.random()
+		particle.angle = random.uniform(0,2*math.pi)
+		particle.move()
+		particle.display(screen)
+	display.flip()
 	for occurence in event.get():
 		if occurence.type == QUIT:
 			running = False
