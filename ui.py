@@ -9,10 +9,14 @@ class Particle:
 	thickness = 1
 	angle = 0
 	speed = 0
+	
 	def __init__(self,x,y,size):
 		self.x = x
 		self.y = y
 		self.size = size
+		# self.speed = random.random()
+		self.speed = random.uniform(0,.003)
+		self.angle = random.uniform(0,2*math.pi)
 
 	def display(self, screen1):
 		draw.circle(screen1, self.color, (int(self.x),int(self.y)),self.size, self.thickness)
@@ -85,24 +89,36 @@ def _compareY(y1, y2):
 	elif y1 == y2:
 		return 0	
 
+def hardWall(windowWidth, windowHeight, particle):
+	if particle.x > windowWidth-particle.size:
+		particle.x = 2*(windowWidth - particle.size) - particle.x
+	elif particle.x < particle.size:
+		particle.x = 2*(particle.size) - particle.x
+
+	if particle.y > windowHeight-particle.size:
+		particle.y = 2*(windowHeight - particle.size) - particle.y
+	elif particle.y < particle.size:
+		particle.y = 2*(particle.size) - particle.y
+
 #set up the screen
-width = 400
-height = 250
+windowWidth = 400
+windowHeight = 250
 backgroundcolor = (150,150,150)
-screen = display.set_mode((width,height))
+screen = display.set_mode((windowWidth,windowHeight))
 screen.fill(backgroundcolor)
 display.set_caption('UI experiments')
 
 #randomly generate 10 particles
-particleList = randomCircles(screen, 10, width, height)
+particleList = randomCircles(screen, 10, windowWidth, windowHeight)
 
 running = True
 while running:
 	screen.fill(backgroundcolor)
 	for particle in particleList:
-		particle.speed = random.random()
-		particle.angle = random.uniform(0,2*math.pi)
+		# particle.speed = random.random()
+		# particle.angle = random.uniform(0,2*math.pi)
 		particle.move()
+		hardWall(windowWidth,windowHeight,particle)
 		particle.display(screen)
 	display.flip()
 	for occurence in event.get():
