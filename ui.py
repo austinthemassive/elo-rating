@@ -29,7 +29,9 @@ class Particle:
 		self.speed = random.uniform(0,.8)
 		self.angle = random.uniform(0,2*math.pi)
 
+	
 	def display(self, screen1):
+		# draw the circle using these characteristics
 		draw.circle(screen1, self.color, (int(self.x),int(self.y)),self.size, self.thickness)
 
 	def move(self):
@@ -41,10 +43,10 @@ class Particle:
 		self.y -= math.cos(self.angle)*self.speed
 
 	def addVectors(self,angle1,length1,angle2,length2):
-			tempx = math.sin(angle1)*length1+math.sin(angle2)+length2
-			tempy = math.cos(angle1)*length1+math.cos(angle2)+length2
+			tempx = math.sin(angle1)*length1+math.sin(angle2)*length2
+			tempy = math.cos(angle1)*length1+math.cos(angle2)*length2
 			length = math.hypot(tempx,tempy)
-			angle = 0.5*math.pi-math.atan2(tempy,tempx)
+			angle = .5*math.pi-math.atan2(tempy,tempx)
 			return (angle, length)
 
 # draws circles
