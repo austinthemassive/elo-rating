@@ -163,8 +163,7 @@ def selectParticle(particleList,xMouse,yMouse):
 	for particle in particleList:
 		if math.hypot(particle.x-xMouse, particle.y-yMouse) <= particle.size:
 			return particle
-		else:
-			return None
+	return None
 
 
 
@@ -191,6 +190,6 @@ while running:
 			if selected_Particle != None:
 				mouseSpeed = math.hypot(xMouseMoved-xMouse,yMouseMoved-yMouse)
 				mouseAngle = math.atan((xMouseMoved-xMouse)/(yMouseMoved-yMouse))
-				selected_Particle.fling(mouseAngle,mouseSpeed)
+				selected_Particle.fling(mouseAngle,mouseSpeed/80)
 
 			selected_Particle = None
