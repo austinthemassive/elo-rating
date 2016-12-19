@@ -100,7 +100,6 @@ def _overlap(x,y,size,ListofParticles):
 	#if no shapes overlap, return overlap will return false (to exit previous loop)
 	return False
 
-
 # calculate the hypotenuse distance between object 1 and object 2 (to determine if overlapping)
 def _hypotenuse(radius1,radius2,x_distance,y_distance):
 	hypotenuse = math.sqrt(x_distance**2+y_distance**2)
@@ -188,4 +187,10 @@ while running:
 			(xMouse,yMouse) = mouse.get_pos()
 			selected_Particle = selectParticle(particleList,xMouse,yMouse)
 		if occurence.type == MOUSEBUTTONUP:
+			(xMouseMoved,yMouseMoved) = mouse.get_pos()
+			if selected_Particle != None:
+				mouseSpeed = math.hypot(xMouseMoved-xMouse,yMouseMoved-yMouse)
+				mouseAngle = math.atan((xMouseMoved-xMouse)/(yMouseMoved-yMouse))
+				selected_Particle.fling(mouseAngle,mouseSpeed)
+
 			selected_Particle = None
