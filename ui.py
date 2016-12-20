@@ -13,25 +13,26 @@ screen.fill(backgroundcolor)
 display.set_caption('UI experiments')
 
 gravity = (math.pi,.001)
+mass_of_air = .2
 
 # Particle Class
 class Particle:
 	color = (0,0,255)
-	thickness = 1
+	thickness = 2
 	angle = 0
 	speed = 0
 	drag = 0
 	elasticity = 0
 	
-	def __init__(self,x,y,size):
+	def __init__(self,x,y,size, mass=1):
 		self.x = x
 		self.y = y
 		self.size = size
-		# self.speed = random.random()
+		self.mass = mass
 		self.speed = random.uniform(0,1)
 		self.angle = random.uniform(0,2*math.pi)
 		self.elasticity = .75
-		self.drag = .9999999999
+		self.drag = (self.mass/(self.mass+mass_of_air))**self.size
 
 	
 	def display(self, screen1):
@@ -47,7 +48,7 @@ class Particle:
 		self.y -= math.cos(self.angle)*self.speed
 		
 		#simulate drag according to shape size
-		self.speed *= (1-self.size/1000000000)
+		self.speed *= self.drag
 
 	def fling(self,mouseAngle,mouseSpeed):
 		#factor in mouse fling vector
@@ -74,11 +75,13 @@ def randomCircles(screen, numberofparticles, width, height):
 		boolean = True
 		while boolean:
 			size = random.randint(5,25)
+			density = random.randint(1,25)
 			x = random.randint(size,width-size)
 			y = random.randint(size,height-size)
 			boolean = _overlap(x,y,size,ListofParticles)
 
-		newparticle = Particle(x,y,size)
+		newparticle = Particle(x,y,size,density*size**2)
+		newparticle.color = (250-density*10,250-density*10,255)
 		newparticle.display(screen)
 		ListofParticles.append(newparticle)
 
@@ -170,17 +173,22 @@ def collision(particle1,particle2):
 	deltaY = particle1.y-particle2.y
 	distance = math.hypot(deltaX,deltaY)
 	if distance < particle1.size + particle2.size:
-		tangent = math.atan2(deltaY,deltaX)
-		particle1.angle = 2*tangent-particle1.angle
-		particle2.angle = 2*tangent-particle1.angle
-		particle1.speed,particle2.speed = particle2.speed,particle1.speed
+		collision_force_angle = math.atan2(deltaY,deltaX)+.5*math.pi
+		total_mass = particle1.mass + particle2.mass
+
+		particle1.addVectors(particle1.angle, particle1.speed*(particle1.mass-particle2.mass)/total_mass,collision_force_angle, 2*particle2.speed*particle2.mass/total_mass) 
+		particle2.addVectors(particle2.angle, particle2.speed*(particle2.mass-particle1.mass)/total_mass,collision_force_angle+math.pi, 2*particle1.speed*particle1.mass/total_mass) 
+
+		# particle1.angle = 2*tangent-particle1.angle
+		# particle2.angle = 2*tangent-particle1.angle
+		# particle1.speed,particle2.speed = particle2.speed,particle1.speed
 
 		#move the particles away from each other so they don't stick
-		tempAngle = .5*math.pi+tangent
-		particle1.x += math.sin(tempAngle)
-		particle1.y -= math.cos(tempAngle)
-		particle2.x -= math.sin(tempAngle)
-		particle2.y += math.cos(tempAngle)
+		overlap = .5*(particle1.size+particle2.size - distance+1)
+		particle1.x += math.sin(collision_force_angle)*overlap
+		particle1.y -= math.cos(collision_force_angle)*overlap
+		particle2.x -= math.sin(collision_force_angle)*overlap
+		particle2.y += math.cos(collision_force_angle)*overlap
 
 #randomly generate a certain number of particles
 particleList = randomCircles(screen, 3, windowWidth, windowHeight)
