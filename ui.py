@@ -174,6 +174,14 @@ def collision(particle1,particle2):
 		particle1.angle = 2*tangent-particle1.angle
 		particle2.angle = 2*tangent-particle1.angle
 		particle1.speed,particle2.speed = particle2.speed,particle1.speed
+
+		#move the particles away from each other so they don't stick
+		tempAngle = .5*math.pi+tangent
+		particle1.x += math.sin(tempAngle)
+		particle1.y -= math.cos(tempAngle)
+		particle2.x -= math.sin(tempAngle)
+		particle2.y += math.cos(tempAngle)
+
 #randomly generate a certain number of particles
 particleList = randomCircles(screen, 3, windowWidth, windowHeight)
 selected_Particle=None
