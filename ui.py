@@ -165,18 +165,27 @@ def selectParticle(particleList,xMouse,yMouse):
 			return particle
 	return None
 
-
-
+def collision(particle1,particle2):
+	deltaX = particle1.x-particle2.x
+	deltaY = particle1.y-particle2.y
+	distance = math.hypot(deltaX,deltaY)
+	if distance < particle1.size + particle2.size:
+		tangent = math.atan2(deltaY,deltaX)
+		particle1.angle = 2*tangent-particle1.angle
+		particle2.angle = 2*tangent-particle1.angle
+		particle1.speed,particle2.speed = particle2.speed,particle1.speed
 #randomly generate a certain number of particles
 particleList = randomCircles(screen, 3, windowWidth, windowHeight)
 selected_Particle=None
 running = True
 while running:
 	screen.fill(backgroundcolor)
-	for particle in particleList:
+	for i, particle in enumerate(particleList):
 		if particle != selected_Particle:
 			particle.move()
 			hardWall(windowWidth,windowHeight,particle)
+			for second_particle in particleList[i+1:]:
+				collision(particle, second_particle)
 		particle.display(screen)
 	display.flip()
 	for occurence in event.get():
